@@ -1,3 +1,18 @@
+/**
+ * NetBindPort (nbp) - A simple TCP port binding utility
+ *
+ * This program binds to one or more specified TCP ports and listens for incoming connections.
+ * When a connection is established, it logs the connection details and sends a confirmation
+ * message back to the client before closing the connection. Useful for testing port availability
+ * or simulating services that acknowledge connections.
+ *
+ * Features:
+ * - Bind to multiple ports simultaneously
+ * - Thread-safe connection logging to console and/or file
+ * - Graceful shutdown via 'q' key or Ctrl+C
+ * - Command-line interface with help and version options
+ */
+
 #include <iostream>
 #include <cstring>
 #include <sys/socket.h>
@@ -14,13 +29,21 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-std::mutex logMutex; // Mutex for thread-safe logging
-bool shouldTerminate = false; // Global variable to signal program termination
+// Global mutex for thread-safe logging operations
+std::mutex logMutex;
+
+// Global flag to signal program termination across threads
+bool shouldTerminate = false;
+
+// Program version constant
 const char *const VERSION = "0.1.0";
+
+// Terminal configuration variables to restore original settings
 static struct termios originalTermios;
 static int originalStdinFlags = 0;
 static bool terminalConfigured = false;
 
+// Configure the terminal for non-blocking, raw input mode to detect key presses without echoing
 void configureTerminal() {
     if (terminalConfigured) {
         return;
@@ -37,6 +60,7 @@ void configureTerminal() {
     terminalConfigured = true;
 }
 
+// Restore the original terminal settings
 void restoreTerminal() {
     if (!terminalConfigured) {
         return;
@@ -47,6 +71,7 @@ void restoreTerminal() {
     terminalConfigured = false;
 }
 
+// Read a single character from stdin without blocking
 bool readInputChar(char &ch) {
     int c = getchar();
     if (c == EOF) {
@@ -57,6 +82,7 @@ bool readInputChar(char &ch) {
     return true;
 }
 
+// Check if the quit key ('q' or 'Q') has been pressed
 bool isQuitKeyPressed() {
     char ch;
     if (!readInputChar(ch)) {
@@ -66,12 +92,14 @@ bool isQuitKeyPressed() {
     return ch == 'q' || ch == 'Q';
 }
 
+// Signal handler for SIGINT (Ctrl+C) to set the termination flag
 void signalHandler(int signal) {
     if (signal == SIGINT) {
         shouldTerminate = true;
     }
 }
 
+// Log connection information with timestamp to the specified output stream (thread-safe)
 void logConnection(std::ostream &output, const char *clientIp, int port) {
     std::time_t now = std::time(nullptr);
     char timestamp[64];
@@ -85,6 +113,7 @@ void logConnection(std::ostream &output, const char *clientIp, int port) {
     }
 }
 
+// Handle an incoming client connection by sending a success message and closing the socket
 void handleConnection(int clientSocket, const char *clientIp, int port, std::ostream &output) {
     std::time_t now = std::time(nullptr);
     char timestamp[64];
@@ -105,6 +134,7 @@ void handleConnection(int clientSocket, const char *clientIp, int port, std::ost
     close(clientSocket);
 }
 
+// Accept incoming connections on the server socket and handle each in a separate thread
 void acceptConnections(int serverSocket, int port, std::ostream &output, std::ofstream &logfile) {
     while (!shouldTerminate) {
         struct sockaddr_in clientAddr;
@@ -131,6 +161,7 @@ void acceptConnections(int serverSocket, int port, std::ostream &output, std::of
     }
 }
 
+// Print the help message with usage instructions
 void printHelpMessage(const char *programName) {
     std::cout << "Usage: " << programName << " -p <port1> [<port2> ...] [-f logfile.txt] [-v|--version] [-h]" << std::endl;
     std::cout << "Options:" << std::endl;
@@ -142,6 +173,7 @@ void printHelpMessage(const char *programName) {
     std::cout << "nbp binds to specified port(s) and responds to incoming TCP connections." << std::endl;
 }
 
+// Parse and validate a port number from a string argument
 static bool parsePort(const char *arg, int &port) {
     try {
         int value = std::stoi(arg);
@@ -155,11 +187,13 @@ static bool parsePort(const char *arg, int &port) {
     }
 }
 
+// Main function: parse command-line arguments, set up servers, and run the event loop
 int main(int argc, char *argv[]) {
     bool loggingEnabled = false;
     std::ofstream logfile;
     std::vector<int> serverPorts;
 
+    // Parse command-line arguments
     for (int i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "-h") == 0) {
             printHelpMessage(argv[0]);
