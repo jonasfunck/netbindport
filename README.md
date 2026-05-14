@@ -1,5 +1,7 @@
 # nbp (NetBindPort)
 
+![NetBindPort logo](Logo/NetBindPort_logo.png)
+
 This C++ program is a simple network server implemented using socket programming. It allows users to specify one or more network ports to bind and listen to for incoming connections.
 
 nbp was created out of the necessity to be able to easily bind ports for network/firewall/routing testing purposes.
