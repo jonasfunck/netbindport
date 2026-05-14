@@ -1,6 +1,6 @@
 ![NetBindPort logo](Logo/NetBindPort_logo.png)
 <div align="center">
-  <h1 style="font-family: Consolas, Menlo, Monaco, monospace; font-size: 42px;">
+  <h1 style="font-size: 42px;">
     Bind, listen, respond—at system speeds.
   </h1>
 </div>
