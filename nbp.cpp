@@ -134,7 +134,7 @@ void acceptConnections(int serverSocket, int port, std::ostream &output, std::of
 void printHelpMessage(const char *programName) {
     std::cout << "Usage: " << programName << " -p <port1> [<port2> ...] [-f logfile.txt] [-v|--version] [-h]" << std::endl;
     std::cout << "Options:" << std::endl;
-    std::cout << "  -p <port1> [<port2> ...] : Specify port(s) to listen on" << std::endl;
+    std::cout << "  -p <port1> [<port2> ...]  : Specify port(s) to listen on" << std::endl;
     std::cout << "  -f logfile.txt            : Enable logging to the specified file" << std::endl;
     std::cout << "  -v, --version             : Show program version" << std::endl;
     std::cout << "  -h                        : Display this help message" << std::endl;
