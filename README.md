@@ -39,11 +39,6 @@ g++ -std=c++17 -pthread -O2 -static -o nbp nbp.cpp
 - `-h`: Display help message showing program usage.
 - `-v`, `--version`: Show the current program version.
 
-### Notes
-
-- The current release is stored in the `VERSION` file.
-- Use `./nbp -v` or `./nbp --version` to print the version and exit.
-
 ### Usage Example
 To run the program listening on ports 8080 and 9090 with logging enabled:
 
