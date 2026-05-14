@@ -8,15 +8,20 @@ For current version, refer to the [VERSION](VERSION) file.
 
 ## Compilation
 
-To compile nbp you need to install a c++ compiler, for example (GNU Compiler Collection) `g++`
+To compile nbp you need to install a C++ compiler, for example GNU Compiler Collection (`g++`) or Clang (`clang++`).
 
 ### Compile
 
-With localy linked libraries:
-`g++ -o nbp nbp.cpp`
+With local linked libraries:
+`g++ -std=c++17 -pthread -O2 -o nbp nbp.cpp`
+
+With Clang:
+`clang++ -std=c++17 -pthread -O2 -o nbp nbp.cpp`
 
 With static linked libraries (more portable):
-`g++ -o nbp nbp.cpp -static`
+`g++ -std=c++17 -pthread -O2 -static -o nbp nbp.cpp`
+
+> Note: `-pthread` is recommended when building with `std::thread` and ensures proper thread support.
 
 ## Usage
 
@@ -26,6 +31,12 @@ With static linked libraries (more portable):
 - `-p <port1> [<port2> ...]`: Specify one or more ports to listen on, this option is mandatory.
 - `-f logfile.txt`: Enable logging to the specified file.
 - `-h`: Display help message showing program usage.
+- `-v`, `--version`: Show the current program version.
+
+### Notes
+
+- The current release is stored in the `VERSION` file.
+- Use `./nbp -v` or `./nbp --version` to print the version and exit.
 
 ### Usage Example
 To run the program listening on ports 8080 and 9090 with logging enabled:
