@@ -1,4 +1,4 @@
-![NetBindPort logo](Logo/NetBindPort_logo.png)
+![NetBindPort logo](Logo/NetBindPort_logo_futuristic.png)
 
 This C++ program is a simple network server implemented using socket programming. It allows users to specify one or more network ports to bind and listen to for incoming connections.
 
