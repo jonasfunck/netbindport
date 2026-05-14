@@ -12,14 +12,20 @@ To compile nbp you need to install a C++ compiler, for example GNU Compiler Coll
 
 ### Compile
 
-With local linked libraries:
-`g++ -std=c++17 -pthread -O2 -o nbp nbp.cpp`
+Build with GCC and local libraries:
+```sh
+g++ -std=c++17 -pthread -O2 -o nbp nbp.cpp
+```
 
-With Clang:
-`clang++ -std=c++17 -pthread -O2 -o nbp nbp.cpp`
+Build with Clang and local libraries:
+```sh
+clang++ -std=c++17 -pthread -O2 -o nbp nbp.cpp
+```
 
-With static linked libraries (more portable):
-`g++ -std=c++17 -pthread -O2 -static -o nbp nbp.cpp`
+Build with static linking for portability:
+```sh
+g++ -std=c++17 -pthread -O2 -static -o nbp nbp.cpp
+```
 
 > Note: `-pthread` is recommended when building with `std::thread` and ensures proper thread support.
 
