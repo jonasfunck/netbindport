@@ -1,5 +1,9 @@
 ![NetBindPort logo](Logo/NetBindPort_logo.png)
-<center># Bind, listen, respond—at system speeds.</center>
+<div align="center">
+  <h1 style="font-size: 42px;">
+    Bind, listen, respond—at system speeds.
+  </h1>
+</div>
 
 This C++ program is a simple network server implemented using socket programming. It allows users to specify one or more network ports to bind and listen to for incoming connections.
 
