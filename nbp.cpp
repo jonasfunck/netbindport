@@ -36,7 +36,7 @@ std::mutex logMutex;
 bool shouldTerminate = false;
 
 // Program version constant
-const char *const VERSION = "0.1.0";
+const char *const VERSION = "0.1.1";
 
 // Terminal configuration variables to restore original settings
 static struct termios originalTermios;
