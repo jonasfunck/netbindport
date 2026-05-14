@@ -47,7 +47,7 @@ g++ -std=c++17 -pthread -O2 -static -o nbp nbp.cpp
 ### Usage Example
 To run the program listening on ports 8080 and 9090 with logging enabled:
 
-`./nbp -p 8080 9090 -f logfile.txt`
+`./nbp -p 8080 9090 -f /path/to/nbp.log`
 
 To run the program listening on port 8181 without file logging enabled:
 
