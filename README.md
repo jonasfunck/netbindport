@@ -4,6 +4,10 @@ This C++ program is a simple network server implemented using socket programming
 
 nbp was created out of the necessity to be able to easily bind ports for network/firewall/routing testing purposes.
 
+User Stories:
+- As an administrator setting up a new VM, I want to verify that ports used by planned services are reachable before installing the actual software, so I can confirm network connectivity and firewall rules first.
+- As a tester validating a firewall or NAT rule, I want to bind to specific ports and accept simple connections, so I can confirm the expected ports are open without deploying a full service stack.
+
 For current version, refer to the [VERSION](VERSION) file.
 
 ## Compilation
