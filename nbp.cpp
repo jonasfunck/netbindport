@@ -36,7 +36,7 @@ std::mutex logMutex;
 bool shouldTerminate = false;
 
 // Program version constant
-const char *const VERSION = "0.1.1";
+const char *const VERSION = "0.1.2";
 
 // Terminal configuration variables to restore original settings
 static struct termios originalTermios;
@@ -187,6 +187,10 @@ static bool parsePort(const char *arg, int &port) {
     }
 }
 
+static bool requiresRootForPort(int port) {
+    return port <= 1024;
+}
+
 // Main function: parse command-line arguments, set up servers, and run the event loop
 int main(int argc, char *argv[]) {
     bool loggingEnabled = false;
@@ -250,6 +254,20 @@ int main(int argc, char *argv[]) {
     if (serverPorts.empty()) {
         std::cerr << "Error: At least one port must be specified with -p" << std::endl;
         printHelpMessage(argv[0]);
+        return 1;
+    }
+
+    bool rootRequired = false;
+    for (int port : serverPorts) {
+        if (requiresRootForPort(port)) {
+            rootRequired = true;
+            break;
+        }
+    }
+
+    if (rootRequired && geteuid() != 0) {
+        std::cerr << "Error: Binding to ports 1024 and below requires root privileges. "
+                  << "Run with sudo or as root." << std::endl;
         return 1;
     }
 

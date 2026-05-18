@@ -34,7 +34,7 @@ g++ -std=c++17 -pthread -O2 -static -o nbp nbp.cpp
 `./nbp -p <port1> [<port2> ...] [-f logfile.txt]`
 
 ### Command-line Options
-- `-p <port1> [<port2> ...]`: Specify one or more ports to listen on, this option is mandatory.
+- `-p <port1> [<port2> ...]`: Specify one or more ports to listen on, this option is mandatory. Ports `1024` and below require root privileges (for example, `sudo ./nbp -p 80`).
 - `-f logfile.txt`: Enable logging to the specified file.
 - `-h`: Display help message showing program usage.
 - `-v`, `--version`: Show the current program version.
